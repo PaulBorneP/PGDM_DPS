@@ -102,20 +102,15 @@ class PGDM_DDIM:
 
       x0_pred = x0_pred.detach()
 
-      # ######### INPAINTING 2 ###################
-      if self.inpainting:
-        x0_pred = x0_pred * (1 - H.singulars().view(x0_pred.size())) + (y * H.singulars()).view(x0_pred.size())
-        grad_term = grad_term * (1 - H.singulars().view(grad_term.size()))
-
       noise = torch.randn_like(x)
       x= np.sqrt(alpha_s) * x0_pred+ c1 * noise + c2 * eps.detach() + grad_term *np.sqrt(alpha_t)
 
 
       if show_steps:
-        # if i%100==99 or t==10 or i==0:
-        #   print('Iteration :', i, 't', t)
-        #   if x_true is not None:
-          pilimg = display_as_pilimg(torch.cat((x_true, x0_pred, x), dim=3))
+        if i%100==99 or t==10 or i==0:
+          print('Iteration :', i, 't', t)
+          if x_true is not None:
+            pilimg = display_as_pilimg(torch.cat((x_true, x0_pred, x), dim=3))
       # this is a quick fix and should be debuged properly
       if i == len(self.s_list)-1:
         return x0_pred
