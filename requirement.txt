@@ -1,0 +1,11 @@
+torch
+numpy
+scipy==1.9.1 
+scikit-learn
+matplotlib
+pytorch-fid
+torchvision
+tqdm
+omegaconf
+Pillow
+lpips
